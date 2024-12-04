@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container mt-3">
+        <h1>Product Catalog</h1>
+        <div id="productList" class="list-group"></div>
+    </div>
+
+    <script>
+        function fetchProducts() {
+            fetch('http://your-ec2-public-ip-or-dns:3000/products')
+                .then(response => response.json())
+                .then(products => {
+                    const list = document.getElementById('productList');
+                    list.innerHTML = '';
+                    products.forEach(product => {
+                        const item = document.createElement('a');
+                        item.classList = 'list-group-item list-group-item-action';
+                        item.href = '#';
+                        item.textContent = `${product.name} - $${product.price}`;
+                        list.appendChild(item);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        fetchProducts();
+    </script>
+</body>
+</html>
